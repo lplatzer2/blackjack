@@ -1,0 +1,10 @@
+body{
+	background-color:green;
+}
+
+.card{
+	margin: 1rem;
+	border: 1px solid black;
+	border-radius: 2%;
+	background-color:#FFF; 
+}
