@@ -58,21 +58,33 @@ buildDeck();
 //debugger
 //console.log(deck.length);
 
-//ask the player for their name
-var getName= function(){
-  var name=prompt("What is your name?");
-  while(name =="" || name==null){
-    name =prompt("Please enter an acutal name");
-  }
-  alert("Hi " + name +"!");
-  return name;
-};
+//ask the player for their name using prompt method
+// var getName= function(){
+//   var name=prompt("What is your name?");
+//   while(name =="" || name==null){
+//     name =prompt("Please enter an acutal name");
+//   }
+//   alert("Hi " + name +"!");
+//   return name;
+// };
 
+
+//Ask player for their name using input field. 
+let playerName="Player";//default value
+var subbutton = document.getElementById('subbutton');
+subbutton.addEventListener('click', getUserName, false);
+
+function getUserName(){
+  playerName=document.getElementById("name").value;
+  console.log("name given was " + playerName);
+playerTitle.textContent=`${playerName}'s Hand`;
+return playerName;
+}; 
 
 //display player name
 let playerTitle=document.querySelector(".player");
-let playerName=getName();
-playerTitle.textContent=playerName;
+
+playerTitle.textContent=`${playerName}'s Hand`;
 
 //var name =getName();
 
@@ -129,11 +141,7 @@ dealCards();
 //console.log(deck.length);*/
 
 
-//display hand on HTML
-
-/* debug
-console.log(hand);
-*/
+// create and display hand on HTML
 
 function displayHTMLhand(player){
 //console.log(player);
