@@ -71,7 +71,8 @@ var getName= function(){
 
 //display player name
 let playerTitle=document.querySelector(".player");
-playerTitle.textContent=getName();
+let playerName=getName();
+playerTitle.textContent=playerName;
 
 //var name =getName();
 
@@ -99,7 +100,12 @@ function player(name){
 }
 
 var dealer = new player("Dealer");
-var player1 = new player(name);
+var player1 = new player(playerName);
+let section =document.querySelectorAll("section");
+section[0].classList.add(dealer.name);
+section[1].classList.add(player1.name);
+
+
 
 //debuggers
 /*console.log(dealer);
@@ -124,17 +130,24 @@ dealCards();
 
 
 //display hand on HTML
-let dealerHand=document.querySelector(".dealer-hand");
-let hand = document.createElement("div");
+
 /* debug
 console.log(hand);
-console.log(dealerHand); */
+*/
 
-hand.innerHTML=createHTMLhand();
+function displayHTMLhand(player){
+//console.log(player);
+  let playerHand=document.querySelector(`.${player.name}`);
+//console.log(dealerHand); 
+  let hand = document.createElement("div");
+  hand.innerHTML=createHTMLhand(player);
+  playerHand.appendChild(hand);
 
-function createHTMLhand(){
+};
+
+function createHTMLhand(player){
   let html = "";
-  dealer.hand.forEach(card=>{
+  player.hand.forEach(card=>{
     console.log(card[0].name);
     let handCard = `<img src='images/${card[0].name}.png' class='card'>`;
     html+=handCard;
@@ -142,7 +155,11 @@ function createHTMLhand(){
   return html;
 }
 
-dealerHand.appendChild(hand);
+displayHTMLhand(dealer);
+displayHTMLhand(player1);
+
+
+
 
 
 //console log to show Player 1 their hand and one of the Dealer's cards
