@@ -4,22 +4,40 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Play blackjack online with computer as dealer.">
+	<link rel="stylesheet"  href="node_modules/normalize.css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="blackjack.css">
 	<title>Blackjack Game</title>
 </head>
 <body>
 <h1>BlackJack</h1>
-<form>
-	<label for="name">Enter your name</label>
-	<input id="name" type="name" name="name" required>
-	<button id="subbutton"type="button">Play!</button>
-</form>
-	<section class="hand">
-		<h2>Dealer's Hand</h2>
-	</section>
-	<section class="hand">
-		<h2 class="player">Player's Hand</h2>
-	</section>
+<div class="container">
+	<div class="status">
+		<form>
+			<label for="name">Enter your name</label>
+			<input id="name" type="name" name="name" required>
+			<button id="subbutton"type="button">Play!</button>
+		</form>
+		<section class=commands>
+			<button type="button" id="hit">Hit</button>
+			<button type="button" id="stand">Stand</button>
+			<button type="button" id="quit">Quit</button>
+		</section>
+		<section class="winner">
+			
+		</section>
+	</div>
+	<div class="table">
+		<section class="hand">
+			<h2>Dealer's Hand</h2>
+			<div id="Dealer-hand" class="dealer-hand"></div>
+		</section>
+		<section class="hand">
+			<h2 class="player">Player's Hand</h2>
+			<div id="Player-hand" class="player-hand"></div>
+		</section>
+	</div>
+</div>
+	
 
 	<script src="blackjack.js"></script>
 </body>
