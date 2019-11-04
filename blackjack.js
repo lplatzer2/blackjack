@@ -5,16 +5,14 @@ const faceNames = ["J","Q","K","A"];
 let hitCount=0;
 let playerStand=false;
 let gameOver=false;
-
-//clears the deck after a game
-var clearDeck = function(){
-  deck=[];
-}
+let dealer = {};
+let player1 = {};
+let winner=document.querySelector(".winner");
 
 
 //build a card object with number value and suit value
 //build an array of card objects that acts as a deck
-var buildDeck = function() {
+function buildDeck() {
   
   var addCards =function() {
     for(var j=0; j<suitNames.length; j++){
@@ -55,7 +53,7 @@ var buildDeck = function() {
   //console.log(deck);
  
 };
-buildDeck();
+
 
 //debugger
 //console.log(deck.length);
@@ -85,10 +83,88 @@ return playerName;
 
 //display player name
 let playerTitle=document.querySelector(".player");
-
 playerTitle.textContent=`${playerName}'s Hand`;
 
-//var name =getName();
+//display to window
+function displayMessage(str){
+winner.innerHTML+= str;
+let br =document.createElement("br");
+winner.appendChild(br);
+}
+
+//handle hit event
+let hitbutton= document.getElementById("hit");
+hitbutton.addEventListener("click", function(){
+  addHitCard(player1);
+});
+
+//handle stand event
+let standbutton=document.getElementById("stand");
+standbutton.addEventListener("click",dealerTurn);
+
+
+//clears the deck after a game
+
+let quitButton= document.getElementById("quit");
+quitButton.addEventListener("click", playGame);
+
+
+
+//RESERVED FOR FUTURE USE--reset players without resetting money
+function clearHands(){
+  clearHand(player1);
+  clearHand(dealer);
+}
+
+function clearHand(person){
+  person.hand=[];
+  person.handValue=0;
+  person.gamelost=false;
+  person.blackjack=false;
+  person.playmore=true;
+}
+
+
+//main game logic
+function playGame(){
+//reset globals
+deck=[]
+  hitCount=0;
+  gameOver=false;
+  playerStand=false;
+  hitbutton.removeAttribute("disabled", "");
+  standbutton.removeAttribute("disabled", "");
+  winner.textContent="";
+  displayMessage("New Game Started");
+  //build deck
+  buildDeck();
+  //initialize players
+  dealer = new player("Dealer");
+  player1 = new player(playerName);
+  let section =document.querySelectorAll("section");
+  section[0].classList.add(dealer.name);
+  section[1].classList.add(player1.name);
+  //deal
+  dealCards();
+  console.log(player1.hand);
+  displayHTMLhand(dealer);
+  displayHTMLhand(player1);
+  showHand(); //console display function only
+  //calculate hand values
+  player1.handValue=sumValue(player1);
+  dealer.handValue=sumValue(dealer);
+  showValue(player1); //console only
+  showValue(dealer); //console only
+  //check for naturals
+  checkNatural(player1);
+  getWinner();
+
+};
+
+
+
+
+
 
 //make a player object that has a "hand" property- an  array of the cards they've been dealt. create two instances of the object: the Dealer, and Player 1.
 function player(name){
@@ -106,19 +182,15 @@ function player(name){
     //console.log("Index: "+ index);
     */
     
-    var pickedCard = deck.splice(index,1);
+    var pickedCard = {...deck.splice(index,1)};
     this.hand.push(pickedCard);
-   // console.log(pickedCard);
+    console.log(pickedCard);
     hitCount++;
    // console.log(52-hitCount);
   }
 }
 
-var dealer = new player("Dealer");
-var player1 = new player(playerName);
-let section =document.querySelectorAll("section");
-section[0].classList.add(dealer.name);
-section[1].classList.add(player1.name);
+
 
 
 
@@ -128,15 +200,17 @@ section[1].classList.add(player1.name);
 */
 
 //randomly splice the deck array twice and then push results into Dealer's hand. Repeat for Player 1.
-var dealCards = function() {
+function dealCards() {
   dealer.hit();
   dealer.hit();
   player1.hit();
   player1.hit();
 }
 
-dealCards();
 
+
+
+console.log(player1.hand);
 //debuggers
 /*console.log(dealer.hand);
 //console.log(player1.hand);
@@ -162,28 +236,29 @@ function displayHTMLhand(player){
 function createHTMLhand(player){
   let html = "";
   player.hand.forEach((card,i)=>{
+     console.log(card);
     let handCard='';
     console.log(card[0].name);
     if(i===0 && player.name==="Dealer" && playerStand===false){
-    handCard =  `<img src='images/back.png' class='card'>`
+    handCard =  `<div class="overlay-container"><img src='images/back.png' class='card'><div class='overlay'></div></div>`
     }else{
     
-    handCard = `<img src='images/${card[0].name}.png' class='card'>`;
+    handCard = `<div class="overlay-container"><div class='overlay'></div><img src='images/${card[0].name}.png' class='card'></div>`;
     }
     html+=handCard;
   });
   return html;
 }
 
-displayHTMLhand(dealer);
-displayHTMLhand(player1);
+
 
 
 
 
 
 //console log to show Player 1 their hand and one of the Dealer's cards
-var showHand = function(){
+function showHand(){
+  displayMessage(`The Dealer's facedown card is: ${dealer.hand[0][0].name}`);
   console.log("The Dealer's facedown card is:", dealer.hand[0][0].name);
 
   var handString = "";
@@ -192,11 +267,12 @@ var showHand = function(){
     handString += player1.hand[i][0].name + "\n";
    
   }
+  displayMessage(`${player1.name}'s hand: ${handString}`);
   console.log(player1.name +"'s hand:\n" + handString); 
 }
-showHand();
 
-var sumValue= function(person){
+
+function sumValue(person){
   var handValue = 0;
   for(var i=0; i<person.hand.length; i++){
     handValue += person.hand[i][0].value;
@@ -204,76 +280,84 @@ var sumValue= function(person){
   return handValue;
 }
 
-player1.handValue=sumValue(player1);
-dealer.handValue=sumValue(dealer);
+
 
 //debugging
-var showValue=function(person){
+function showValue(person){
+  displayMessage(`The value of ${person.name}'s hand:${person.handValue}`);
     console.log("The value of " + person.name +"'s hand:",person.handValue);
 };
-  showValue(player1);
-  showValue(dealer);
+
 
 
 
 //check to make sure that neither the Dealer nor Player 1 have a "natural" hand of 21 (comprised of an Ace and Ten) by summing the value of the Hand array.
-var checkNatural=function(person){
+function checkNatural(person){
+  displayMessage("Now checking for naturals...");
   console.log("Now checking for naturals...");
   if(dealer.hand[1][0].value==10 || dealer.hand[1][0].value==11) {
+    displayMessage(`Since the dealer has a ${dealer.hand[1][0].name}, the dealer will now peek to see if the facedown card results in blackjack.`);
     console.log("Since the dealer has a " + dealer.hand[1][0].name + ", the dealer will now peek to see if the facedown card results in blackjack.");
+    displayMessage(`Dealer's facedown card was ${dealer.hand[0][0].name}`); //debug
     console.log("Dealer's facedown card was ", dealer.hand[0][0].name); //debug
     checkBJ(dealer);
     if(dealer.blackjack){
+      displayMessage(`The facedown card was ${dealer.hand[0][0].name}`);
       console.log("The facedown card was ", dealer.hand[0][0].name);
     } else {
+      displayMessage("Dealer has no naturals.");
       console.log("Dealer has no naturals.");
     }
   }
+  displayMessage(`Now checking ${person.name} for naturals...`);
   console.log("Now checking " + person.name + " for naturals...");
   checkBJ(person);
   if(!person.blackjack) {
+    displayMessage(`${person.name} has no naturals`);
     console.log(person.name + " has no naturals");
   }
 }
 
-checkNatural(player1);
+
 //display winner if there was a natural
-var getWinner = function(){
+function getWinner(){
   if((dealer.blackjack==true && player1.blackjack==true) 
     || (dealer.gamelost==true && player1.gamelost==true)){
     console.log(" GAME OVER: It's a tie!");
-  showWinner("Nobody");
+    displayMessage("GAME OVER: It's a tie!");
+  // showWinner("Nobody");
   }else if(player1.blackjack==true || dealer.gamelost==true){
-    showWinner(player1.name);
+    displayMessage(`GAME OVER: ${player1.name} won!`);
+    //showWinner(player1.name);
   }else if(dealer.blackjack==true || player1.gamelost==true){
-    showWinner(dealer.name);
+    displayMessage(`GAME OVER: ${dealer.name} won!`)
+    //showWinner(dealer.name);
   }else if(gameOver){
     if(player1.handValue==dealer.handValue){
-      showWinner("Nobody");
+      //showWinner("Nobody");
+       displayMessage("GAME OVER: It's a tie!");
       console.log(" GAME OVER: It's a tie!");
     }else if(player1.handValue>dealer.handValue){
-      showWinner(player1.name);
+      //showWinner(player1.name);
+       displayMessage(`GAME OVER: ${player1.name} won!`);
     }else{
-      showWinner(dealer.name);
+     // showWinner(dealer.name);
+      displayMessage(`GAME OVER: ${dealer.name} won!`)
     }
   }
 
   
 }
-getWinner();
-
-//print winner to HTML
-function showWinner(person){
-let winner=document.querySelector(".winner");
-  winner.textContent=`Game Over: ${person} won!`;
-}
 
 
-//handle hit event
-let hitbutton= document.getElementById("hit");
-hitbutton.addEventListener("click", function(){
-  addHitCard(player1);
-});
+// //print winner to HTML
+// function showWinner(person){
+
+//   winner.textContent+=`Game Over: ${person} won!`;
+// }
+
+
+
 
 //add card to hand and update hand value
 function addHitCard(player){
@@ -284,9 +368,7 @@ function addHitCard(player){
   showValue(player);
 }
 
-//handle stand event
-let standbutton=document.getElementById("stand");
-standbutton.addEventListener("click",dealerTurn);
+
 
 function dealerTurn(){
   playerStand=true;
@@ -338,4 +420,8 @@ If  conditions two or three are met, display both players' hands.
 Whoever has the greater sum in hand wins.*/
 
 
-
+//feature wishlist
+//play button greyed out until name is entered
+/*transition effect when play is selected
+betting money
+split and double down*/
