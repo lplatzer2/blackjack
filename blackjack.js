@@ -20,7 +20,6 @@ function buildDeck() {
         let card = {
           name: i + "_of_" + suitNames[j],
           value: i,
-          altValue:i,
           suit: suitNames[j]
         };
         deck.push(card);
@@ -35,13 +34,11 @@ function buildDeck() {
         let card = {
           name: faceNames[i] + "_of_" + suitNames[j],
           value: 10,
-          altValue: 10,
           suit: suitNames[j]
         };
         //Aces worth either 11 or 1 pt
           if(faceNames[i]=="A") {
             card.value = 11;
-            card.altValue=1;
           }
         deck.push(card);
       }
@@ -76,7 +73,7 @@ subbutton.addEventListener('click', getUserName, false);
 
 function getUserName(){
   playerName=document.getElementById("name").value;
-  console.log("name given was " + playerName);
+  // console.log("name given was " + playerName);
 playerTitle.textContent=`${playerName}'s Hand`;
 return playerName;
 }; 
@@ -158,6 +155,7 @@ deck=[]
   //check for naturals
   checkNatural(player1);
   getWinner();
+  
 
 };
 
@@ -183,8 +181,8 @@ function player(name){
     */
     
     var pickedCard = {...deck.splice(index,1)};
-    this.hand.push(pickedCard);
-    console.log(pickedCard);
+    this.hand.push(pickedCard[0]);
+    // console.log(pickedCard[0]);
     hitCount++;
    // console.log(52-hitCount);
   }
@@ -238,12 +236,12 @@ function createHTMLhand(player){
   player.hand.forEach((card,i)=>{
      console.log(card);
     let handCard='';
-    console.log(card[0].name);
+    // console.log(card.name);
     if(i===0 && player.name==="Dealer" && playerStand===false){
     handCard =  `<div class="overlay-container"><img src='images/back.png' class='card'><div class='overlay'></div></div>`
     }else{
     
-    handCard = `<div class="overlay-container"><div class='overlay'></div><img src='images/${card[0].name}.png' class='card'></div>`;
+    handCard = `<div class="overlay-container"><div class='overlay'></div><img src='images/${card.name}.png' class='card'></div>`;
     }
     html+=handCard;
   });
@@ -258,24 +256,26 @@ function createHTMLhand(player){
 
 //console log to show Player 1 their hand and one of the Dealer's cards
 function showHand(){
-  displayMessage(`The Dealer's facedown card is: ${dealer.hand[0][0].name}`);
-  console.log("The Dealer's facedown card is:", dealer.hand[0][0].name);
+  displayMessage(`The Dealer's facedown card is: ${dealer.hand[0].name}`);
+  // console.log("The Dealer's facedown card is:", dealer.hand[0].name);
 
   var handString = "";
  
   for(var i=0; i<player1.hand.length; i++){
-    handString += player1.hand[i][0].name + "\n";
+    handString += player1.hand[i].name + "\n";
    
   }
   displayMessage(`${player1.name}'s hand: ${handString}`);
-  console.log(player1.name +"'s hand:\n" + handString); 
+  // console.log(player1.name +"'s hand:\n" + handString); 
 }
 
 
 function sumValue(person){
   var handValue = 0;
   for(var i=0; i<person.hand.length; i++){
-    handValue += person.hand[i][0].value;
+    console.log(`Adding on ${person.name}'s hand: ${person.hand[i].value} to ${handValue}`);
+    handValue += person.hand[i].value;
+    person.handValue=handValue;
   }
   return handValue;
 }
@@ -295,15 +295,15 @@ function showValue(person){
 function checkNatural(person){
   displayMessage("Now checking for naturals...");
   console.log("Now checking for naturals...");
-  if(dealer.hand[1][0].value==10 || dealer.hand[1][0].value==11) {
-    displayMessage(`Since the dealer has a ${dealer.hand[1][0].name}, the dealer will now peek to see if the facedown card results in blackjack.`);
-    console.log("Since the dealer has a " + dealer.hand[1][0].name + ", the dealer will now peek to see if the facedown card results in blackjack.");
-    displayMessage(`Dealer's facedown card was ${dealer.hand[0][0].name}`); //debug
-    console.log("Dealer's facedown card was ", dealer.hand[0][0].name); //debug
+  if(dealer.hand[1].value==10 || dealer.hand[1].value==11) {
+    displayMessage(`Since the dealer has a ${dealer.hand[1].name}, the dealer will now peek to see if the facedown card results in blackjack.`);
+    console.log("Since the dealer has a " + dealer.hand[1].name + ", the dealer will now peek to see if the facedown card results in blackjack.");
+    displayMessage(`Dealer's facedown card was ${dealer.hand[0].name}`); //debug
+    console.log("Dealer's facedown card was ", dealer.hand[0].name); //debug
     checkBJ(dealer);
     if(dealer.blackjack){
-      displayMessage(`The facedown card was ${dealer.hand[0][0].name}`);
-      console.log("The facedown card was ", dealer.hand[0][0].name);
+      displayMessage(`The facedown card was ${dealer.hand[0].name}`);
+      console.log("The facedown card was ", dealer.hand[0].name);
     } else {
       displayMessage("Dealer has no naturals.");
       console.log("Dealer has no naturals.");
@@ -361,7 +361,7 @@ function getWinner(){
 
 //add card to hand and update hand value
 function addHitCard(player){
-  console.log(player);
+  // console.log(player);
   player.hit();
   displayHTMLhand(player);
   player.handValue=sumValue(player);
@@ -393,8 +393,14 @@ function dealerTurn(){
 //Player 1 can hit or stay. Create a checkfunction that checks if either player's hand is over 21. If yes,make the value of the Ace 1 instead of 11. If still yes, signal that the person who busted lost. If not, check for 21. 
 var checkBust=function(person){
  handValue=sumValue(person);
-  if(handValue > 21){
-    console.log(person.name +" busted!")
+  while(handValue > 21 && checkAces(person)){
+    changeAces(person);
+     handValue=sumValue(person);
+     showValue(person);
+  }
+  if(handValue>21){
+    displayMessage(`${person.name} has busted!`);
+    console.log(person.name +" busted!");
     person.gamelost=true;
   }
 }
@@ -402,16 +408,33 @@ var checkBust=function(person){
 function checkBJ(person){
     handValue=sumValue(person);
   if(handValue ==21){
+    displayMessage(`${person.name} has blackjack!`)
     console.log(person.name +" has blackjack!");
     person.blackjack=true;
   }
 }
 
 
+//check for aces
+function checkAces(person){
+  for(let i=0; i<person.hand.length; i++){
+    if(person.hand[i].value===11){
+      console.log("we got an ace here boys");
+      return true;
+    }
+  }
+  console.log("no aces here!");
+  return false;
+}
 
-
-//need an if statement to change ace value to 1 if busted
-
+//change ace value to 1 if busted
+function changeAces(person){
+ person.hand.find(card=>{
+  if((card.value)===11){
+    card.value=1;
+  }
+ });
+}
 
 
 /*If not, check if dealer's hand is 17 or over. 
