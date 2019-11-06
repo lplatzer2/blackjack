@@ -208,7 +208,7 @@ function dealCards() {
 
 
 
-console.log(player1.hand);
+// console.log(player1.hand);
 //debuggers
 /*console.log(dealer.hand);
 //console.log(player1.hand);
@@ -234,7 +234,7 @@ function displayHTMLhand(player){
 function createHTMLhand(player){
   let html = "";
   player.hand.forEach((card,i)=>{
-     console.log(card);
+     // console.log(card);
     let handCard='';
     // console.log(card.name);
     if(i===0 && player.name==="Dealer" && playerStand===false){
@@ -420,6 +420,7 @@ function checkAces(person){
   for(let i=0; i<person.hand.length; i++){
     if(person.hand[i].value===11){
       console.log("we got an ace here boys");
+      console.log(`The ace is ${person.hand[i].name}`);
       return true;
     }
   }
@@ -429,11 +430,15 @@ function checkAces(person){
 
 //change ace value to 1 if busted
 function changeAces(person){
- person.hand.find(card=>{
-  if((card.value)===11){
-    card.value=1;
+  console.log("starting changeAce function");
+  for(let i=0; i<person.hand.length; i++){
+    if(person.hand[i].value===11){
+      console.log(`changing the value of ${person.hand[i].name}`);
+      person.hand[i].value=1;
+       return;
+    }
   }
- });
+  console.log("Ending changeAce function");
 }
 
 
