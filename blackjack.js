@@ -74,20 +74,24 @@ nameInput.addEventListener('keyup', getUserName, false);
 subbutton.addEventListener('click', hide, false);
 
 function getUserName(){
-  playerName=this.value;
+  let fullName=this.value.split(" ").join("");
+  playerName=fullName;
   // console.log("name given was " + playerName);
 playerTitle.textContent=`${playerName}'s Hand`;
 return playerName;
 }; 
 
-let testbutton = document.getElementById("testbutton");
-testbutton.addEventListener('click', hide, false);
+//Test sign-in box transition
+// let testbutton = document.getElementById("testbutton");
+// testbutton.addEventListener('click', hide, false);
 
 function hide(){
   let signIn=document.querySelector(".sign-in");
+  let game=document.querySelector(".game");
   // signIn.style.height=0;
   // signIn.style.display=none;
   signIn.classList.add("hidden");
+  game.classList.remove("hidden");
 }
 
 //display player name
@@ -163,7 +167,7 @@ deck=[]
   player1.handValue=sumValue(player1);
   dealer.handValue=sumValue(dealer);
   showValue(player1); //console only
-  showValue(dealer); //console only
+  // showValue(dealer); //console only
   //check for naturals
   checkNatural(player1);
   getWinner();
@@ -268,7 +272,7 @@ function createHTMLhand(player){
 
 //console log to show Player 1 their hand and one of the Dealer's cards
 function showHand(){
-  displayMessage(`The Dealer's facedown card is: ${dealer.hand[0].name}`);
+  // displayMessage(`The Dealer's facedown card is: ${dealer.hand[0].name}`);
   // console.log("The Dealer's facedown card is:", dealer.hand[0].name);
 
   var handString = "";
