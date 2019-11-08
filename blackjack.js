@@ -71,7 +71,7 @@ let playerName="Player";//default value
 let subbutton = document.getElementById('subbutton');
 let nameInput = document.getElementById('name');
 nameInput.addEventListener('keyup', getUserName, false);
-subbutton.addEventListener('click', hide, false);
+subbutton.addEventListener('click', playGame, false);
 
 function getUserName(){
   let fullName=this.value.split(" ").join("");
@@ -91,7 +91,27 @@ function hide(){
   // signIn.style.height=0;
   // signIn.style.display=none;
   signIn.classList.add("hidden");
-  game.classList.remove("hidden");
+  signIn.addEventListener("transitionend",function(){
+     game.classList.remove("hidden");
+  })
+ 
+}
+
+//show/hide instructions
+let rulesbutton=document.getElementById("instructions");
+rulesbutton.addEventListener("click",toggleRules);
+function toggleRules(){
+  
+ let rules=document.querySelector(".instructions");
+  if(this.textContent==="Show Instructions"){
+    this.textContent="Hide Instructions";
+  }else if(this.textContent==="Hide Instructions"){
+    this.textContent="Show Instructions";
+  }
+
+ 
+  console.log(rules);
+  rules.classList.toggle("hidden");
 }
 
 //display player name
@@ -140,6 +160,8 @@ function clearHand(person){
 
 //main game logic
 function playGame(){
+  //hide sign-in, show game 
+  hide();
 //reset globals
 deck=[]
   hitCount=0;
@@ -162,7 +184,7 @@ deck=[]
   console.log(player1.hand);
   displayHTMLhand(dealer);
   displayHTMLhand(player1);
-  showHand(); //console display function only
+  // showHand(); //console display function only
   //calculate hand values
   player1.handValue=sumValue(player1);
   dealer.handValue=sumValue(dealer);
@@ -464,7 +486,7 @@ Whoever has the greater sum in hand wins.*/
 
 //feature wishlist
 //play button greyed out until name is entered
-//instructions
+// move instructions somewhere less obtrusive
 //play button takes you immediately into first game
 /*betting money
 split and double down*/

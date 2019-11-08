@@ -13,12 +13,12 @@
 	<header>
 		<svg class="icon" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 496.159 496.159" style="enable-background:new 0 0 496.159 496.159;" xml:space="preserve">
-		<path style="fill:#e4e4e4;" d="M248.083,0.003C111.071,0.003,0,111.063,0,248.085c0,137.001,111.07,248.07,248.083,248.07
-			c137.006,0,248.076-111.069,248.076-248.07C496.159,111.062,385.089,0.003,248.083,0.003z"/>
-		<path style="fill:#3A3A3A;" d="M350.97,200.987c-13.583-18.908-101.436-106.045-102.855-107.6v-0.074c0,0-0.028,0.031-0.035,0.037
-			c-0.006-0.006-0.033-0.037-0.033-0.037v0.074c-1.42,1.556-87.721,88.509-102.856,107.601s-63.338,77.588-3.958,122.717
-			c0,0,65.698,40.9,100.102-29.194c-2.912,70.157-50.752,108.336-50.752,108.336h114.803c0,0-48.015-38.33-50.762-108.741
-			c34.349,70.667,100.306,29.6,100.306,29.6C414.308,278.575,364.553,219.895,350.97,200.987z"/>
+			<path style="fill:#e4e4e4;" d="M248.083,0.003C111.071,0.003,0,111.063,0,248.085c0,137.001,111.07,248.07,248.083,248.07
+				c137.006,0,248.076-111.069,248.076-248.07C496.159,111.062,385.089,0.003,248.083,0.003z"/>
+			<path style="fill:#3A3A3A;" d="M350.97,200.987c-13.583-18.908-101.436-106.045-102.855-107.6v-0.074c0,0-0.028,0.031-0.035,0.037
+				c-0.006-0.006-0.033-0.037-0.033-0.037v0.074c-1.42,1.556-87.721,88.509-102.856,107.601s-63.338,77.588-3.958,122.717
+				c0,0,65.698,40.9,100.102-29.194c-2.912,70.157-50.752,108.336-50.752,108.336h114.803c0,0-48.015-38.33-50.762-108.741
+				c34.349,70.667,100.306,29.6,100.306,29.6C414.308,278.575,364.553,219.895,350.97,200.987z"/>
 		<h1>BlackJack</h1>
 	</header>
 	
@@ -41,10 +41,27 @@
 </section>
 <div class="game container hidden">
 	<div class="status">
-		<section class=commands>
+		<section class="commands">
 			<button type="button" id="hit" disabled="disabled">Hit</button>
 			<button type="button" id="stand" disabled="disabled">Stand</button>
 			<button type="button" id="quit">New Round</button>
+			<button type="button" id="instructions">Show Instructions</button>
+		</section>
+		<section class="instructions hidden">
+			<h3>Instructions</h3>
+			<p>Each participant attempts to beat the dealer by getting a count as close to 21 (blackjack) as possible, without going over 21. </p>
+			<h4>Card Values</h4>
+			<p>2-10 = number on card</p>
+			<p>J,Q,K = 10 points</p>
+			<p>A = 11 or 1 points (your choice!)</p>
+			<h4>Naturals</h4>
+			<p>If a player's first two cards are an ace and a "ten-card" (a picture card or 10), giving a count of 21 in two cards, this is a natural or "blackjack." </p>
+			<p>If the dealer's face-up card is a ten-card or an ace, they look at their face-down card to see if the two cards make a natural. </p>
+			<h4>Gameplay</h4>
+			<p>Hit: Ask the dealer for another card. Adds to your value.</p>
+			<p>Stand:Keep your cards as they are. Ends your turn.</p>
+			<h4>Winning</h4>
+			<p>Whoever gets closest to 21 wins. If you go over 21, you go "bust" and lose. Ties occur when you and the dealer have the same hand value or both go bust.</p>
 		</section>
 		<section class="winner">
 			
