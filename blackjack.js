@@ -366,11 +366,7 @@ function getWinner(){
 }
 
 
-// //print winner to HTML
-// function showWinner(person){
 
-//   winner.textContent+=`Game Over: ${person} won!`;
-// }
 
 
 
@@ -468,6 +464,7 @@ Whoever has the greater sum in hand wins.*/
 
 //feature wishlist
 //play button greyed out until name is entered
-/*transition effect when play is selected
-betting money
+//instructions
+//play button takes you immediately into first game
+/*betting money
 split and double down*/
