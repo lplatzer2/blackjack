@@ -68,15 +68,27 @@ function buildDeck() {
 
 //Ask player for their name using input field. 
 let playerName="Player";//default value
-var subbutton = document.getElementById('subbutton');
-subbutton.addEventListener('click', getUserName, false);
+let subbutton = document.getElementById('subbutton');
+let nameInput = document.getElementById('name');
+nameInput.addEventListener('keyup', getUserName, false);
+subbutton.addEventListener('click', hide, false);
 
 function getUserName(){
-  playerName=document.getElementById("name").value;
+  playerName=this.value;
   // console.log("name given was " + playerName);
 playerTitle.textContent=`${playerName}'s Hand`;
 return playerName;
 }; 
+
+let testbutton = document.getElementById("testbutton");
+testbutton.addEventListener('click', hide, false);
+
+function hide(){
+  let signIn=document.querySelector(".sign-in");
+  // signIn.style.height=0;
+  // signIn.style.display=none;
+  signIn.classList.add("hidden");
+}
 
 //display player name
 let playerTitle=document.querySelector(".player");
@@ -138,9 +150,9 @@ deck=[]
   //initialize players
   dealer = new player("Dealer");
   player1 = new player(playerName);
-  let section =document.querySelectorAll("section");
-  section[0].classList.add(dealer.name);
-  section[1].classList.add(player1.name);
+  let handContent =document.querySelectorAll(".hand-content");
+  handContent[0].classList.add(dealer.name);
+  handContent[1].classList.add(player1.name);
   //deal
   dealCards();
   console.log(player1.hand);
@@ -220,11 +232,11 @@ function dealCards() {
 
 function displayHTMLhand(player){
 //console.log(player);
-  let playerHand=document.querySelector(`.${player.name}`);
+ 
 //console.log(dealerHand); 
   // let hand = document.createElement("div");
   // console.log(`${player.name}-hand`);
-  let hand=document.getElementById(`${player.name}-hand`);
+  let hand=document.querySelector(`.${player.name}`);
   // console.log(hand);
   hand.innerHTML=createHTMLhand(player);
   // playerHand.appendChild(hand);
@@ -411,6 +423,8 @@ function checkBJ(person){
     displayMessage(`${person.name} has blackjack!`)
     console.log(person.name +" has blackjack!");
     person.blackjack=true;
+    hitbutton.setAttribute("disabled", "");
+    standbutton.setAttribute("disabled", "");
   }
 }
 
