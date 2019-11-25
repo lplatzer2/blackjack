@@ -1,3 +1,5 @@
+// require("babel-core").transform("code", options);
+
 //global variables
 let deck= []; 
 const suitNames = ["hearts","diamonds","spades", "clubs"];
@@ -8,13 +10,14 @@ let gameOver=false;
 let dealer = {};
 let player1 = {};
 let winner=document.querySelector(".winner");
+let tips;
 
 
 //build a card object with number value and suit value
 //build an array of card objects that acts as a deck
 function buildDeck() {
   
-  var addCards =function() {
+  function addCards() {
     for(var j=0; j<suitNames.length; j++){
       for(var i=2;i<11; i++) {
         let card = {
@@ -25,10 +28,10 @@ function buildDeck() {
         deck.push(card);
       }
     }
-  };
+  }
   addCards();
 
-  var addFaceCards = function() {
+  function addFaceCards() {
     for(var j=0; j<suitNames.length; j++){
       for(var i= 0; i<faceNames.length; i++){
         let card = {
@@ -43,7 +46,7 @@ function buildDeck() {
         deck.push(card);
       }
     }
-  };
+  }
   addFaceCards();
 
 
@@ -125,6 +128,26 @@ let br =document.createElement("br");
 winner.appendChild(br);
 }
 
+//display tooltips
+function setTooltip(){
+
+tips = document.querySelectorAll(".fa-container");
+tips.forEach(function(tip){
+//   console.log(tip);
+  tip.addEventListener("mouseover", displayTooltip);
+  tip.addEventListener("mouseout",displayTooltip);
+ });
+// console.log(tips);
+// return tips;
+}
+
+
+function displayTooltip(){
+  console.log(this);
+let tipText= this.lastChild;
+tipText.classList.toggle("hidden");
+}
+
 //handle hit event
 let hitbutton= document.getElementById("hit");
 hitbutton.addEventListener("click", function(){
@@ -192,14 +215,11 @@ deck=[]
   // showValue(dealer); //console only
   //check for naturals
   checkNatural(player1);
+  setTooltip();
   getWinner();
   
 
 };
-
-
-
-
 
 
 //make a player object that has a "hand" property- an  array of the cards they've been dealt. create two instances of the object: the Dealer, and Player 1.
@@ -227,9 +247,6 @@ function player(name){
 }
 
 
-
-
-
 //debuggers
 /*console.log(dealer);
 //console.log(player1);
@@ -242,8 +259,6 @@ function dealCards() {
   player1.hit();
   player1.hit();
 }
-
-
 
 
 // console.log(player1.hand);
@@ -331,7 +346,7 @@ function showValue(person){
 
 //check to make sure that neither the Dealer nor Player 1 have a "natural" hand of 21 (comprised of an Ace and Ten) by summing the value of the Hand array.
 function checkNatural(person){
-  displayMessage("Now checking for naturals...");
+  displayMessage("Now checking for naturals...<span class='fa-container'><i class='far fa-question-circle'></i><p class='hidden tooltip'>An automatic 21</p></span>");
   console.log("Now checking for naturals...");
   if(dealer.hand[1].value==10 || dealer.hand[1].value==11) {
     displayMessage(`Since the dealer has a ${dealer.hand[1].name}, the dealer will now peek to see if the facedown card results in blackjack.`);
@@ -387,12 +402,6 @@ function getWinner(){
   
 }
 
-
-
-
-
-
-
 //add card to hand and update hand value
 function addHitCard(player){
   // console.log(player);
@@ -401,8 +410,6 @@ function addHitCard(player){
   player.handValue=sumValue(player);
   showValue(player);
 }
-
-
 
 function dealerTurn(){
   playerStand=true;
@@ -421,7 +428,6 @@ function dealerTurn(){
   getWinner();
 
 }
-
 
 
 //Player 1 can hit or stay. Create a checkfunction that checks if either player's hand is over 21. If yes,make the value of the Ace 1 instead of 11. If still yes, signal that the person who busted lost. If not, check for 21. 
@@ -487,6 +493,5 @@ Whoever has the greater sum in hand wins.*/
 //feature wishlist
 //play button greyed out until name is entered
 // move instructions somewhere less obtrusive
-//play button takes you immediately into first game
 /*betting money
 split and double down*/

@@ -53,7 +53,7 @@ button{
 /*background: linear-gradient(135deg, rgba(255,215,0,1) 20%, rgba(203,171,3,1) 97%);*/
 	padding: .5rem;
 	margin: .3rem;
-	box-shadow: 1px 3px 2px 0px #a59646a1;
+	box-shadow: 1px 3px 2px 0 #a59646a1;
 }
 
 button:hover{
@@ -101,6 +101,30 @@ form{
 }
 
 
+.fa-question-circle{
+	color:black;
+	background-color: gold;
+	border-radius: 50%;
+	border:0px solid gold;
+
+}
+
+
+.fa-container{
+	position: relative;
+
+}
+
+.tooltip{
+	position: absolute;
+	top:0;
+	left:0;
+	background-color: black;
+	color:white;
+	padding: 0 .5rem ;
+	border-radius: 5px;
+	border:0px ;
+}
 
 
 .table{
@@ -127,8 +151,7 @@ form{
 	border: 1px solid black;
 	border-radius: 2%;
 	background-color:#FFF;
-	max-height: 238px;
-	opacity: 50;	
+	max-height: 238px;	
 	box-shadow: 7px 7px 4px 1px rgba(0, 0, 0, 0.2);
 }
 
