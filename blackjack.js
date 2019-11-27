@@ -103,13 +103,16 @@ function hide(){
 //show/hide instructions
 let rulesbutton=document.getElementById("instructions");
 rulesbutton.addEventListener("click",toggleRules);
+let closebutton=document.querySelector(".close");
+closebutton.addEventListener("click",toggleRules);
+
 function toggleRules(){
   
  let rules=document.querySelector(".instructions");
-  if(this.textContent==="Show Instructions"){
-    this.textContent="Hide Instructions";
-  }else if(this.textContent==="Hide Instructions"){
-    this.textContent="Show Instructions";
+  if(rulesbutton.textContent==="Show Instructions"){
+    rulesbutton.textContent="Hide Instructions";
+  }else if(rulesbutton.textContent==="Hide Instructions"){
+    rulesbutton.textContent="Show Instructions";
   }
 
  
@@ -133,7 +136,7 @@ function setTooltip(){
 
 tips = document.querySelectorAll(".fa-container");
 tips.forEach(function(tip){
-//   console.log(tip);
+ // console.log(tip);
   tip.addEventListener("mouseover", displayTooltip);
   tip.addEventListener("mouseout",displayTooltip);
  });
@@ -492,6 +495,5 @@ Whoever has the greater sum in hand wins.*/
 
 //feature wishlist
 //play button greyed out until name is entered
-// move instructions somewhere less obtrusive
 /*betting money
 split and double down*/

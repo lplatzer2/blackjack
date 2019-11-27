@@ -93,11 +93,36 @@ form{
 	align-items:center;
 }
 
+
+
+.instructions{
+	background-color:gold;
+	opacity: .95;
+	position:absolute;
+	width:55%;
+	margin:0 auto;
+	padding:1rem;
+	top:10%;
+	left:33%;
+	z-index: 99;
+	border-radius: 5%;
+
+}
+
+.close{
+	position: absolute;
+	right:1rem;
+	font-weight: bold;
+	cursor: pointer;
+	text-decoration:underline;
+}
+
 .hidden{
 	height: 0;
 	border:none;
 	/*display: none;*/
 	overflow: hidden;
+	padding:0;
 }
 
 
@@ -141,6 +166,9 @@ form{
 	width:30%;
 }
 
+.winner{
+	position: relative;
+}
 .player-hand,.dealer-hand{
 	display: flex;
 	flex-wrap: wrap;
@@ -165,7 +193,7 @@ form{
 	position: absolute;
 	top:15px;
 	left:17px;
-	z-index: 99;
+	z-index: 50;
 	width: 100%;
 	height: 100%;
 	/*border: 1px solid black;

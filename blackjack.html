@@ -42,6 +42,13 @@
 	</form>
 	
 </section>
+
+
+
+
+
+
+
 <div class="game container hidden">
 	<div class="status">
 		<section class="commands">
@@ -50,27 +57,29 @@
 			<button type="button" id="quit">New Round</button>
 			<button type="button" id="instructions">Show Instructions</button>
 		</section>
-		<section class="instructions hidden">
-			<h3>Instructions</h3>
-			<p>Each participant attempts to beat the dealer by getting a count as close to 21 (blackjack) as possible, without going over 21. </p>
-			<h4>Card Values</h4>
-			<p>2-10 = number on card</p>
-			<p>J,Q,K = 10 points</p>
-			<p>A = 11 or 1 points (your choice!)</p>
-			<h4>Naturals</h4>
-			<p>If a player's first two cards are an ace and a "ten-card" (a picture card or 10), giving a count of 21 in two cards, this is a natural or "blackjack." </p>
-			<p>If the dealer's face-up card is a ten-card or an ace, they look at their face-down card to see if the two cards make a natural. </p>
-			<h4>Gameplay</h4>
-			<p>Hit: Ask the dealer for another card. Adds to your value.</p>
-			<p>Stand:Keep your cards as they are. Ends your turn.</p>
-			<h4>Winning</h4>
-			<p>Whoever gets closest to 21 wins. If you go over 21, you go "bust" and lose. Ties occur when you and the dealer have the same hand value or both go bust.</p>
-		</section>
 		<section class="winner">
 			
 		</section>
 	</div>
 	<div class="table">
+		<section class="instructions hidden"> 
+			<p class="close button">Close</p>
+			<h3>Instructions</h3>
+			<p>Each participant attempts to beat the dealer by getting a count as close to 21 (blackjack) as possible, without going over 21. </p>
+			<h4>Card Values</h4>
+				<p>2-10 = number on card</p>
+				<p>J,Q,K = 10 points</p>
+				<p>A = 11 or 1 points (your choice!)</p>
+			<h4>Naturals</h4>
+				<p>If a player's first two cards are an ace and a "ten-card" (a picture card or 10), giving a count of 21 in two cards, this is a natural or "blackjack." </p>
+				<p>If the dealer's face-up card is a ten-card or an ace, they look at their face-down card to see if the two cards make a natural. </p>
+			<h4>Gameplay</h4>
+				<p>Hit: Ask the dealer for another card. Adds to your value.</p>
+				<p>Stand:Keep your cards as they are. Ends your turn.</p>
+			<h4>Winning</h4>
+				<p>Whoever gets closest to 21 wins. If you go over 21, you go "bust" and lose. Ties occur when you and the dealer have the same hand value or both go bust.</p>
+		
+		</section>
 		<section class="hand">
 			<h2>Dealer's Hand</h2>
 			<div id="Dealer-hand" class=" hand-content dealer-hand"></div>
